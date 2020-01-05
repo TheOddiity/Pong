@@ -16,7 +16,7 @@ class Racket : public EllipseShape
 
         float getSpeed();
         void setSpeed(float speed = 200);
-		virtual void draw(sf::RenderTarget& target, sf::RenderStates) const;
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates) const override;
 
         virtual ~Racket();
 

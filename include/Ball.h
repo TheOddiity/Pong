@@ -10,10 +10,11 @@ public:
     Ball(sf::Vector2i windowSize, sf::Vector2f startPos, double speed, sf::Vector2f direction);
 
     int move(float dt);
-    bool hitRacket(Racket& racket);
-    bool contains(sf::Vector2f point);
+    sf::Vector2f hitRacket(Racket& racket) const;
+    bool contains(const sf::Vector2f& point) const;
     void setDirection(float x, float y);
-    void setDirection(sf::Vector2f direction);
+    void setDirection(const sf::Vector2f& direction);
+	sf::Vector2f getDirection() const;
 
     virtual ~Ball();
 

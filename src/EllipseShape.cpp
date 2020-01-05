@@ -31,9 +31,6 @@ sf::Vector2f EllipseShape::getPointTangent(std::size_t index) const
 {
     sf::Vector2f point{getPoint(index) - getOrigin()};
     return sfex::norm(sf::Vector2f (-point.y * std::pow(m_radius.x, 2), point.x * std::pow(m_radius.y, 2)));
-    return sfex::norm(sf::Vector2f(1, -point.x * std::pow(m_radius.y, 2)
-                                    / (point.y * std::pow(m_radius.x, 2))));
-        //(1-point.x/m_radius.x/m_radius.x)* m_radius.y * m_radius.y / point.y));
 }
 
 

@@ -41,10 +41,10 @@ int Ball::move(float dt)
 
 }
 
-bool Ball::hitRacket(Racket& racket)
+sf::Vector2f Ball::hitRacket(Racket& racket) const
 {
     if (m_direction == sf::Vector2f(0, 0))
-        return false;
+        return sf::Vector2f(0, 0);
 
     if (getGlobalBounds().intersects(racket.getGlobalBounds()))
     {
@@ -52,18 +52,13 @@ bool Ball::hitRacket(Racket& racket)
         {
             if (sfex::length(getPosition() - racket.getGlobalPoint(i)) <= m_rad)
             {
-                m_direction = sfex::reflect(m_direction,
-                                            racket.getPointTangent(static_cast<size_t>(i)));
-//                m_direction.x = 0;
-//                m_direction.y = 0;
-//                racket.setSpeed(0);
-                return true;
+                return racket.getPointTangent(static_cast<size_t>(i));
             }
 
         }
     }
 
-    return false;
+    return sf::Vector2f(0, 0);
 }
 
 void Ball::setDirection(float x, float y)
@@ -71,9 +66,14 @@ void Ball::setDirection(float x, float y)
     setDirection(sf::Vector2f(x, y));
 }
 
-void Ball::setDirection(sf::Vector2f direction)
+void Ball::setDirection(const sf::Vector2f& direction)
 {
     m_direction = direction;
+}
+
+sf::Vector2f Ball::getDirection() const
+{
+	return m_direction;
 }
 
 Ball::~Ball()

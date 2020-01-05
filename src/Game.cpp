@@ -6,7 +6,7 @@
 
 #include "sfex.h"
 
-Game::Game(sf::Vector2i windowSize)
+Game::Game(const sf::Vector2i& windowSize)
     : m_ball{Ball(windowSize, sf::Vector2f(10, 10), 300, Game::randDirectionVector())},
       m_racketRight{Racket(sf::Vector2f(10.f, 40.f),
                         sf::Vector2f(windowSize.x - 20, windowSize.y / 2 - 20), "assets/pingRacket.png")},
@@ -55,26 +55,40 @@ Game::~Game()
 void Game::update(float dt)
 {
     //Logic and input handling
-    static bool hitRacket{false};
+    static bool hitRight{false};
+    static bool hitLeft{false};
     checkKeyPressed(dt);
 
-    if (hitRacket)
-    {
-        hitRacket = false;
-    }
-    else
-    {
-        if (m_ball.hitRacket(m_racketRight))
-        {
-            pongSound.play();
-            hitRacket = true;
-        }
-        else if (m_ball.hitRacket(m_racketLeft))
-        {
-            pingSound.play();
-            hitRacket = true;
-        }
-    }
+  	
+	sf::Vector2f hitVector{m_ball.hitRacket(m_racketRight)};
+	if (hitVector != sf::Vector2f(0,0))
+	{
+		if (!hitRight)
+		{
+			pongSound.play();
+			hitRight = true;
+			m_ball.setDirection(sfex::reflect(m_ball.getDirection(), hitVector));
+		}
+	}
+	else 
+	{
+		hitRight = false;
+	}
+	
+	hitVector = m_ball.hitRacket(m_racketLeft); 
+	if (hitVector != sf::Vector2f(0,0))
+	{
+		if (!hitLeft)
+		{
+			pingSound.play();
+			hitLeft = true;
+			m_ball.setDirection(sfex::reflect(m_ball.getDirection(), hitVector));
+    	}
+	}
+	else
+	{
+		hitLeft = false;
+	}
 
     switch(m_ball.move(dt))
     {
@@ -123,11 +137,6 @@ void Game::checkKeyPressed(float dt)
         restart();
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    {
-        pause();
-        pointIndex++;
-    }
 }
 
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -148,10 +157,10 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 //    sfex::drawPoint(target, m_racketLeft.getGlobalPoint(0), sf::Color::Red);
 
-    sf::VertexArray line{sf::Lines, 2};
+//    sf::VertexArray line{sf::Lines, 2};
 
-    line[0].position = m_racketLeft.getGlobalPoint(pointIndex) + m_racketLeft.getPointTangent(pointIndex) * 50.f;
-    line[1].position = m_racketLeft.getGlobalPoint(pointIndex) + m_racketLeft.getPointTangent(pointIndex) * -50.f;
+//    line[0].position = m_racketLeft.getGlobalPoint(pointIndex) + m_racketLeft.getPointTangent(pointIndex) * 50.f;
+//    line[1].position = m_racketLeft.getGlobalPoint(pointIndex) + m_racketLeft.getPointTangent(pointIndex) * -50.f;
     //m_racketLeft.getGlobalPoint(i);//m_ball.getPosition().x < m_windowSize.x / 2
                         //? m_racketLeft.getGlobalPoint(i) : m_racketRight.getGlobalPoint(i++));
 //    sfex::drawPoint(target, line[0].position, sf::Color::Green);

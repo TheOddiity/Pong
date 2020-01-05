@@ -78,8 +78,8 @@ namespace sfex{
 
     static void drawPoint(sf::RenderTarget& target, const sf::Vector2f point, sf::Color color = sf::Color::White)
     {
-        sf::RectangleShape p(sf::Vector2f(3, 3));
-        p.setPosition(point  - 1.f);
+        sf::RectangleShape p(sf::Vector2f(1, 1));
+        p.setPosition(point);
         p.setFillColor(color);
         target.draw(p);
     }
@@ -99,6 +99,34 @@ namespace sfex{
             target.draw(s);
         }
     }
+	
+	static bool mouseButtonReleased(sf::Mouse::Button button) 
+	{
+		static bool pressed[sf::Mouse::ButtonCount];
+		if (!sf::Mouse::isButtonPressed(button) && pressed[button])
+		{
+			pressed[button] = false;
+			return true;
+		}
+		else if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !pressed[sf::Mouse::Left])
+		{
+			pressed[button] = true;
+		}
+		
+		return false;
+	}
+	
+	static sf::Mouse::Button mouseButtonReleased()
+	{
+		for (int i = 0; i < sf::Mouse::ButtonCount; ++i)
+		{
+			if(mouseButtonReleased(static_cast<sf::Mouse::Button>(i)))
+				return static_cast<sf::Mouse::Button>(i);
+		}
+		return sf::Mouse::ButtonCount;
+	}
+	
+	
 }
 
 #endif // VECTOR2_H

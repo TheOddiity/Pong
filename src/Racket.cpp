@@ -26,12 +26,12 @@ sf::Vector2f Racket::getGlobalPoint(const std::size_t index) const
     return getPosition() + getPoint(index) - getOrigin();
 }
 
-float Racket::getSpeed()
+float Racket::getSpeed() 
 {
     return m_speed;
 }
 
-void Racket::move(const sf::Vector2f& offset)
+void Racket::move(const sf::Vector2f& offset) 
 {
     EllipseShape::move(offset * m_speed);
 	sprite.move(offset * m_speed);

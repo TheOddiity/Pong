@@ -11,7 +11,7 @@
 class Game : public sf::Drawable
 {
 public:
-    Game(sf::Vector2i windowSize = sf::Vector2i(200, 200));
+    Game(const sf::Vector2i& windowSize);
     ~Game();
 
     void update(float dt);
