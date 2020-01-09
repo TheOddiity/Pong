@@ -2,7 +2,7 @@
 #define BUTTON_H
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/RoundedRectangleShape.hpp>
+#include "RoundedRectangleShape.hpp"
 
 class Button : public sf::Drawable
 {
