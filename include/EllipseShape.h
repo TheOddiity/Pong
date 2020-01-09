@@ -12,8 +12,8 @@ class EllipseShape : public sf::Shape
         sf::Vector2f getRadius() const { return m_radius; }
         void setRadius(const sf::Vector2f& radius) {m_radius = radius; update();}
         sf::Vector2f getPointTangent(std::size_t index) const;
-
-        //sf::Vector2f getSize() {return m_radius;}
+		
+        sf::Vector2f getSize() {return m_radius * 2.f;}
         virtual std::size_t getPointCount() const override;
         virtual sf::Vector2f getPoint(std::size_t index) const override;
 

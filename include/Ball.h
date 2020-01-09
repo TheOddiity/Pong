@@ -7,24 +7,25 @@
 class Ball : public sf::CircleShape
 {
 public:
-    Ball(sf::Vector2i windowSize, sf::Vector2f startPos, double speed, sf::Vector2f direction);
+    Ball(sf::Vector2i windowSize, sf::Vector2f direction, sf::Vector2f startPos = sf::Vector2f(0.f, 0.f));
 
     int move(float dt);
+	int move(const sf::Vector2f& offset);
     sf::Vector2f hitRacket(Racket& racket) const;
     bool contains(const sf::Vector2f& point) const;
-    void setDirection(float x, float y);
-    void setDirection(const sf::Vector2f& direction);
-	sf::Vector2f getDirection() const;
+	sf::Vector2f getSpeed() const;
+	void setSpeed(const sf::Vector2f& speed);
+	void setSpeed(float x, float y);
+	void increaseSpeed(const sf::Vector2f& inc);
 
     virtual ~Ball();
 
 protected:
 
 private:
-    static float m_rad;
+    static const float m_rad;
     sf::Vector2i m_windowSize;
-    double m_speed;
-    sf::Vector2f m_direction;
+    sf::Vector2f m_speed;
 
 
 };

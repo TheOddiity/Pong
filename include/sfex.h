@@ -20,15 +20,15 @@ sf::Vector2<T> operator-(sf::Vector2<T> left, T right)
 }
 namespace sfex{
     template <class T>
-    static float length(sf::Vector2<T> v)
+    static T length(sf::Vector2<T> v)
     {
         return std::sqrt(v.x * v.x + v.y * v.y);
     }
 
     template <class T>
-    static sf::Vector2<T> norm(sf::Vector2<T> v)
+    static sf::Vector2<T> norm(sf::Vector2<T> v) //Returns v if v = (0, 0)
     {
-        return v / length(v);
+        return v == sf::Vector2<T>(0, 0) ? v : v / length(v);
     }
 
     template <class T>
@@ -57,14 +57,14 @@ namespace sfex{
     template <typename T>
     sf::Vector2<T> operator*(sfex::Matrix2<T> left, sf::Vector2<T>& right)
     {
-        return sfex::norm(sf::Vector2<T>(left.a11 * right.x + left.a12 * right.y,
-                              left.a21 * right.x + left.a22 * right.y));
+        return sf::Vector2<T>(left.a11 * right.x + left.a12 * right.y,
+                              left.a21 * right.x + left.a22 * right.y);
     }
 
     typedef Matrix2<float> Matrix2f;
 
-    template <class T1, class T2>
-    static sf::Vector2f reflect(sf::Vector2<T1> incoming, sf::Vector2<T2> reflector)
+    template <class T>
+    static sf::Vector2f reflect(sf::Vector2<T> incoming, sf::Vector2<T> reflector)
     {
         /*        1     |v_x² - v_y²    2v_x v_y
          *  A = -----   |
@@ -73,7 +73,7 @@ namespace sfex{
         Matrix2f reflexMatrix(reflector.x * reflector.x - reflector.y * reflector.y,
                 2 * reflector.x * reflector.y, 2 * reflector.x * reflector.y,
                 reflector.y * reflector.y - reflector.x * reflector.x);
-        return reflexMatrix * incoming;
+        return reflexMatrix * incoming * (reflector.x * reflector.x + reflector.y * reflector.y);
     }
 
     static void drawPoint(sf::RenderTarget& target, const sf::Vector2f point, sf::Color color = sf::Color::White)
@@ -124,6 +124,14 @@ namespace sfex{
 				return static_cast<sf::Mouse::Button>(i);
 		}
 		return sf::Mouse::ButtonCount;
+	}
+	
+	static bool anyKeyPressed()
+	{
+		for (int i = 0; i < sf::Keyboard::KeyCount; i++)
+				if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(i)))
+					return true;
+		return false;
 	}
 	
 	

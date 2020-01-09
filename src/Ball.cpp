@@ -3,15 +3,22 @@
 #include <iostream>
 #include "sfex.h"
 
-float Ball::m_rad = 10.f;
+const float Ball::m_rad = 10.f;
 
-Ball::Ball(sf::Vector2i windowSize, sf::Vector2f startPos, double speed, sf::Vector2f direction)
-    : sf::CircleShape(m_rad), m_windowSize{windowSize}, m_speed{speed},
-      m_direction{sfex::norm(direction)}
+Ball::Ball(sf::Vector2i windowSize, sf::Vector2f speed, sf::Vector2f startPos)
+    : sf::CircleShape(m_rad), m_windowSize{windowSize}, m_speed{speed}
 {
     setFillColor(sf::Color::Green);
     setOrigin(m_rad, m_rad);
-    setPosition(startPos.x, startPos.y);
+	
+	if (startPos == sf::Vector2f(0.f, 0.f)) // no startPos sent
+	{
+		setPosition(windowSize.x / 2, windowSize.y / 2);
+	}
+	else
+	{
+    	setPosition(startPos.x, startPos.y);
+	}
 }
 
 int Ball::move(float dt)
@@ -25,25 +32,46 @@ int Ball::move(float dt)
         return 1;
     }
 
-    if (getPosition().y >= m_windowSize.y - m_rad && m_direction.y > 0)
+    if (getPosition().y >= m_windowSize.y - m_rad && m_speed.y > 0)
     {
-        m_direction.y *= -1;
+        m_speed.y *= -1;
     }
-    else if (getPosition().y <= m_rad && m_direction.y < 0)
+    else if (getPosition().y <= m_rad && m_speed.y < 0)
     {
-        m_direction.y *= -1;
+        m_speed.y *= -1;
     }
 
-    sf::CircleShape::move(m_direction.x * m_speed * dt,
-                          m_direction.y * m_speed * dt);
+    sf::CircleShape::move(m_speed * dt);
 
     return 0;
+}
 
+int Ball::move(const sf::Vector2f& offset)
+{
+	if (getPosition().x  + m_rad >= m_windowSize.x)
+    {
+        return -1;
+    }
+    else if (getPosition().x - m_rad <= 0)
+    {
+        return 1;
+    }
+
+    if (getPosition().y >= m_windowSize.y - m_rad && m_speed.y > 0)
+    {
+        m_speed.y *= -1;
+    }
+    else if (getPosition().y <= m_rad && m_speed.y < 0)
+    {
+        m_speed.y *= -1;
+    }
+
+    sf::CircleShape::move(offset);
 }
 
 sf::Vector2f Ball::hitRacket(Racket& racket) const
 {
-    if (m_direction == sf::Vector2f(0, 0))
+    if (m_speed == sf::Vector2f(0, 0))
         return sf::Vector2f(0, 0);
 
     if (getGlobalBounds().intersects(racket.getGlobalBounds()))
@@ -61,19 +89,25 @@ sf::Vector2f Ball::hitRacket(Racket& racket) const
     return sf::Vector2f(0, 0);
 }
 
-void Ball::setDirection(float x, float y)
+sf::Vector2f Ball::getSpeed() const
 {
-    setDirection(sf::Vector2f(x, y));
+	return m_speed;
 }
 
-void Ball::setDirection(const sf::Vector2f& direction)
+void Ball::setSpeed(float x, float y)
 {
-    m_direction = direction;
+	m_speed.x = x;
+	m_speed.y = y;
 }
 
-sf::Vector2f Ball::getDirection() const
+void Ball::setSpeed(const sf::Vector2f& speed)
 {
-	return m_direction;
+	m_speed = speed;
+}
+
+void Ball::increaseSpeed(const sf::Vector2f& inc)
+{
+	m_speed += inc;
 }
 
 Ball::~Ball()
