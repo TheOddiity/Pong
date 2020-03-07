@@ -12,16 +12,22 @@ public:
 	
 	bool update(float dt, const sf::RenderWindow& window);
 	void setPosition(const sf::Vector2f& pos);
+	void setPosition(float x, float y);
 	sf::Vector2f getPosition() const;
 	void setFont(const sf::Font& font);
-	int getIndex() const;
+	void setString(const std::string& caption);
+	std::string getString() const;
+	void setWindowSize(const sf::Vector2i& windowSize);
+	void setSize(const sf::Vector2f& size);
+	sf::Vector2f getSize() const; 
 	
 protected:
 
-private:
 	sf::RoundedRectangleShape m_button;
 	const std::string m_caption;
 	sf::Vector2i m_windowSize;
+	sf::Vector2f m_pos;
+	sf::Vector2f m_size;
 	
 	sf::Text m_text;
 
@@ -29,9 +35,6 @@ private:
 	const sf::Color Color_fill;
 	const sf::Color Color_hover;
 	const sf::Color Color_text;
-	
-	const int buttonNumber;
-	static int s_buttonNumber;
 	
 	float time;
 

@@ -1,19 +1,9 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <SFML/Graphics.hpp>
-
-class Settings : public sf::Drawable
+struct Settings
 {
-public:
-	Settings(sf::Vector2i windowSize);
-	
-	bool update();
-	
-private:
-	sf::Vector2i m_windowSize;
-	
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	int points;
 };
 
 #endif // SETTINGS_H

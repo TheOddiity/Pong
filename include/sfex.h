@@ -1,5 +1,5 @@
-#ifndef VECTOR2_H
-#define VECTOR2_H
+#ifndef SFEX_H
+#define SFEX_H
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
@@ -108,7 +108,7 @@ namespace sfex{
 			pressed[button] = false;
 			return true;
 		}
-		else if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !pressed[sf::Mouse::Left])
+		else if (sf::Mouse::isButtonPressed(button) && !pressed[button])
 		{
 			pressed[button] = true;
 		}
@@ -126,6 +126,22 @@ namespace sfex{
 		return sf::Mouse::ButtonCount;
 	}
 	
+	static bool keyReleased(sf::Keyboard::Key key)
+	{
+		static bool pressed[sf::Keyboard::KeyCount];
+		if (!sf::Keyboard::isKeyPressed(key) && pressed[key])
+		{
+			pressed[key] = false;
+			return true;
+		}
+		else if (sf::Keyboard::isKeyPressed(key) && !pressed[key])
+		{
+			pressed[key] = true;
+		}
+		
+		return false;
+	}
+	
 	static bool anyKeyPressed()
 	{
 		for (int i = 0; i < sf::Keyboard::KeyCount; i++)
@@ -134,7 +150,16 @@ namespace sfex{
 		return false;
 	}
 	
-	
-}
+} // namespace sfex
 
-#endif // VECTOR2_H
+
+namespace std
+{
+	template <typename T>
+	static std::string to_string(sf::Vector2<T> vector)
+	{
+		return "(" + std::to_string(vector.x) + ", " + std::to_string(vector.y) + ")";
+	}
+} //namespace std
+
+#endif // SFEX_H
