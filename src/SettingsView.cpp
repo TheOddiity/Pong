@@ -1,11 +1,10 @@
 #include "SettingsView.h"
 #include "sfex.h"
 #include "main.h"
-#include "Button.h"
 
 #include <iostream>
 
-SettingsView::SettingsView(const sf::Vector2i& windowSize, sf::Font& font, Settings settings) 
+SettingsView::SettingsView(const sf::Vector2i& windowSize, sf::Font& font, Settings& settings) 
 	: m_windowSize{windowSize}, m_font{font}, settings{settings},
 				m_toWhatBox{Textbox(font)}
 {	
@@ -29,7 +28,6 @@ SettingsView::SettingsView(const sf::Vector2i& windowSize, sf::Font& font, Setti
 	m_toWhatBox.setPosition(windowSize.x / 2 + 10, windowSize.y * .4f 
 							 + (m_toWhatText.getLocalBounds().height - m_toWhatText.getLocalBounds().top) / 2);
 	m_toWhatBox.setSize(80.f, 25.f);
-	m_toWhatBox.setString(std::to_string(settings.points));
 	
 	
 	m_saveBut.setFont(m_font);
@@ -40,6 +38,8 @@ SettingsView::SettingsView(const sf::Vector2i& windowSize, sf::Font& font, Setti
 	m_cancelBut.setFont(m_font);
 	m_cancelBut.setPosition(windowSize.x / 2 - m_saveBut.getSize().x - 40, windowSize.y * .8f);
 	m_cancelBut.setString("Cancel");
+	
+	reset();
 }
 
 bool SettingsView::update(float dt, const sf::RenderWindow& window)
@@ -47,6 +47,11 @@ bool SettingsView::update(float dt, const sf::RenderWindow& window)
 	if (m_saveBut.update(dt, window))
 	{
 		settings.points = std::stoi(m_toWhatBox.getString());
+		return true;
+	}
+	else if (m_cancelBut.update(dt, window))
+	{
+		reset();
 		return true;
 	}
 	return false;
@@ -57,11 +62,16 @@ void SettingsView::updateText(const sf::Event& event)
 	m_toWhatBox.updateText(event);
 }
 
+void SettingsView::reset()
+{
+	m_toWhatBox.setString(std::to_string(settings.points));
+}
+
 void SettingsView::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(m_title);
 	target.draw(m_toWhatText);
 	target.draw(m_toWhatBox);
 	target.draw(m_saveBut);
-	//target.draw(m_cancelBut);	
+	target.draw(m_cancelBut);	
 }

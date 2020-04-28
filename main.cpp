@@ -1,9 +1,14 @@
 #include <SFML/Graphics.hpp>
 
-#include "Menu.h"
-#include "Game.h"
+#include "main.h"
+#include "MenuView.h"
+#include "GameView.h"
+#include "SettingsView.h"
+#include "CreditsView.h"
+
 #include "Settings.h"
-#include "Credits.h"
+
+#include <iostream>
 
 
 enum class GameState
@@ -14,6 +19,8 @@ enum class GameState
 	CREDITS
 };
 
+bool hasFocus{false};
+
 int main()
 {
     sf::Vector2i windowSize{700, 400};
@@ -21,11 +28,19 @@ int main()
     sf::Clock gameTime;
 	
 	GameState state{GameState::MENU};
+	sf::Font font;
+	if(!font.loadFromFile("assets/PermanentMarker-Regular.ttf"))
+	{
+		
+	}
 	
-	Menu menu{windowSize};
-	Game game{windowSize};
-	Settings settings{windowSize};
-	Credits credits{windowSize};
+	Settings settings{15};
+	
+	MenuView menuView{windowSize, font};
+	GameView gameView{windowSize, font, settings};
+	SettingsView settingsView{windowSize, font, settings};
+	CreditsView creditsView{windowSize, font};
+
 	
     while (window.isOpen())
     {
@@ -33,59 +48,75 @@ int main()
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+			{
                 window.close();
-        }
+			}
+			else if (event.type == sf::Event::GainedFocus)
+			{
+				hasFocus = true;
+			}
+			else if (event.type == sf::Event::LostFocus)
+			{
+				hasFocus = false;
+			}
+			else if (state == GameState::SETTINGS)
+			{
+				settingsView.updateText(event);
+			}
+			
+		
+		
+		}
 
 		switch (state)
 		{
 			case GameState::MENU:
-				switch (menu.update(gameTime.restart().asSeconds(), window))
+				switch (menuView.update(gameTime.restart().asSeconds(), window))
 				{
-					case Menu::PLAY:
+					case MenuView::PLAY:
 						state = GameState::PLAY;
-						game.reset();
+						gameView.reset();
 						break;
-					case Menu::SETTINGS:
+					case MenuView::SETTINGS:
 						state = GameState::SETTINGS;
 						break;
-					case Menu::CREDITS:
+					case MenuView::CREDITS:
 						state = GameState::CREDITS;
 						break;
-					case Menu::EXIT:
+					case MenuView::EXIT:
 						window.close();
 						break;
 				}
 				break;
 			case GameState::PLAY:
-				if (game.update(gameTime.restart().asSeconds()))
+				if (gameView.update(gameTime.restart().asSeconds()))
 					state = GameState::MENU;
 				break;
 			case GameState::SETTINGS:
-				if (settings.update())
+				if (settingsView.update(gameTime.restart().asSeconds(), window))
 					state = GameState::MENU;
 				break;
 			case GameState::CREDITS:
-				if(credits.update())
+				if(creditsView.update())
 					state = GameState::MENU;
 				break;
 		}
 		
 
-		
         window.clear();
 		switch (state)
 		{
 			case GameState::MENU:
-				window.draw(menu);
+				window.draw(menuView);
 				break;
 			case GameState::PLAY:
-				window.draw(game);
+				window.draw(gameView);
 				break;
 			case GameState::SETTINGS:
-				window.draw(settings);
+				window.draw(settingsView);
 				break;
 			case GameState::CREDITS:
-				window.draw(credits);
+				window.draw(creditsView);
 				break;
 		}
         window.display();

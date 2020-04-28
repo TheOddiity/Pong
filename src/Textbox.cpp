@@ -75,7 +75,11 @@ std::string Textbox::getCharType() const { return m_charType; }
 void Textbox::setCharLimit(int limit) { m_charLim = limit; }
 int Textbox::getCharLimit() const { return m_charLim; }
 
-void Textbox::setString(std::string text) { m_text.setString(text); }
+void Textbox::setString(std::string text) 
+{ 
+	m_text.setString(text); 
+	m_text.setPosition(m_pos - m_origin + m_size / 2.f);	
+}
 std::string Textbox::getString() const { return m_text.getString(); }
 
 void Textbox::setOrigin(sf::Vector2f origin) 

@@ -7,9 +7,15 @@ int MenuButton::s_buttonNumber{0};
 MenuButton::MenuButton(std::string caption, sf::Vector2i windowSize) 
 	: Button(caption, windowSize), c_buttonNumber{s_buttonNumber++}
 {
-	std::cerr << "MenuButton::Menubutton\n";
 }
-
+MenuButton::MenuButton(const MenuButton& old) : Button(old.m_caption, old.m_windowSize), c_buttonNumber{old.c_buttonNumber}
+{
+	m_button = old.m_button;
+	m_pos = old.m_pos;
+	m_size = old.m_size;
+	
+	m_text = old.m_text;
+}
 int MenuButton::getIndex() const
 {
 	return c_buttonNumber;

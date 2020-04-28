@@ -36,13 +36,10 @@ MenuView::MenuView(const sf::Vector2i& windowSize, sf::Font& font) : m_windowSiz
 	buttons.reserve(numButs);
 	for (int i = 0; i < numButs; ++i)
 	{
-		std::cerr << "push_back\n";
 		buttons.push_back(MenuButton(bNameList[i], windowSize));
-		std::cerr << "setFont\n";
 		buttons.back().setFont(m_buttonFont);
-		std::cerr << "setPosition";
 		buttons.back().setPosition();
-	}
+	}	
 }
 
 MenuView::ButtonList MenuView::update(float dt, const sf::RenderWindow& window)
@@ -61,7 +58,7 @@ void MenuView::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(m_bgSprite);	
 	target.draw(m_logoSprite);
 	target.draw(m_titleSprite);
-	for (Button b : buttons)
+	for (const MenuButton& b : buttons)
 	{
 		target.draw(b);
 	}

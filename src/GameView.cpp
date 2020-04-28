@@ -8,7 +8,7 @@
 #include "sfex.h"
 #include "main.h"
 
-GameView::GameView(const sf::Vector2i& windowSize, sf::Font& font, Settings settings)
+GameView::GameView(const sf::Vector2i& windowSize, sf::Font& font, Settings& settings)
     : m_ball{Ball(windowSize, GameView::randSpeedVector())},
       m_racketRight{sf::Vector2f(windowSize.x - 20, windowSize.y / 2 - 20), "assets/pingRacket.png"},
       m_racketLeft{sf::Vector2f(20, windowSize.y / 2 - 20), "assets/pongRacket.png"},

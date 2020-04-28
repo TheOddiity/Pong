@@ -11,7 +11,6 @@ Button::Button(std::string caption, sf::Vector2i windowSize) :
 			Color_hover{sf::Color(255, 255, 255, 40)}, // Light Grey
 			Color_text{sf::Color(0, 166, 0)}
 {
-	std::cerr << "Button::Button\n";
 	m_button.setOutlineThickness(5);
 	m_button.setOutlineColor(Color_outline);
 	m_button.setFillColor(Color_fill);
@@ -21,7 +20,6 @@ Button::Button(std::string caption, sf::Vector2i windowSize) :
 	m_text.setCharacterSize(static_cast<int>(m_button.getSize().y * .7));
 	
 	m_size = sf::Vector2f(100, 30);
-	std::cerr << "End of Button::Button\n";
 }
 
 bool Button::update(float dt, const sf::RenderWindow& window)
