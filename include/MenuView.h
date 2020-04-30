@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <list>
 #include "MenuButton.h"
 
 
@@ -36,6 +37,9 @@ private:
 	
 	std::vector<MenuButton> buttons;
 	sf::Font m_buttonFont;
+	
+	//MenuButton but;
+	//std::list<MenuButton> buttons;
 	
 	
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

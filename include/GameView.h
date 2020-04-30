@@ -19,7 +19,7 @@ public:
 		RIGHT
 	};
 	
-    GameView(const sf::Vector2i& windowSize, sf::Font& font, Settings settings);
+    GameView(const sf::Vector2i& windowSize, sf::Font& font, Settings& settings);
     ~GameView();
 
     bool update(float dt);
@@ -29,7 +29,7 @@ protected:
 
 
 private:
-	Settings settings;
+	Settings& settings;
     Ball m_ball;
     Racket m_racketRight;
     Racket m_racketLeft;
