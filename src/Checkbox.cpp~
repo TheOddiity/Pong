@@ -1,0 +1,57 @@
+Checkbox::Checkbox(sf::Vector2f position, sf::Vector2f size)
+{
+  m_pos = position;
+  m_size = size;
+}
+
+Checkbox::update(const sf::RenderWindow& window)
+{
+  if (getGlobalNarrowBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(window))))
+  {
+    if (sfex::mouseButtonReleased(sf::Mouse::Left))
+      toggleChecked();
+
+    //m_box.setFillColor(HoverColor);
+  }
+  else
+  {
+    //m_box.setFillColor(FillColor);
+  }
+}     
+
+void setPosition(const sf::Vector2f& pos)
+{
+  m_pos = pos;
+  m_box.setPosition(pos);
+}
+void setPosition(float x, float y) { setPosition(sf::Vector2f(x, y)); }
+sf::Vector2f getPosition() { return m_pos; }
+
+void setSize(const sf::Vector2f& size)
+{
+  m_size = size;
+  m_box.setSize(size);
+}
+void setSize(float x, float y) { setSize(sf::Vector2f(x, y)); }
+sf::Vector2f getSize() const { return m_size; }
+
+void setChecked(bool checked) { m_checked = checked; }
+void toggleChecked() { m_checked = !m_checked; }
+bool getChecked() const { return m_checked; }
+
+
+virtual void draw(sf::RenderTarget& target, sf::RenderState states) const
+{
+  target.draw(m_box);
+
+  if (m_checked)
+  {
+    //Draw check mark
+  }    
+}
+
+sf::FloatRect Button::getGlobalNarrowBounds()
+{
+	return sf::FloatRect(m_button.getPosition().x, m_button.getPosition().y,
+			     m_button.getSize().x, m_button.getSize().y);
+}

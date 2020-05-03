@@ -71,8 +71,8 @@ void Button::setSize(const sf::Vector2f& size)
 	m_button.setCornersRadius(size.y / 10.f);
 	m_text.setCharacterSize(static_cast<int>(m_button.getSize().y * .7));
 	m_text.setPosition(m_pos - sf::Vector2f(0, m_text.getLocalBounds().top / 1.f) 
-					   + (m_button.getSize() - sf::Vector2f(m_text.getLocalBounds().width, 
-														  m_text.getLocalBounds().height)) / 2.f);
+		         + (m_button.getSize() - sf::Vector2f(m_text.getLocalBounds().width,
+							      m_text.getLocalBounds().height)) / 2.f);
 }
 sf::Vector2f Button::getSize() const { return m_size; }
 
@@ -85,7 +85,8 @@ void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 sf::FloatRect Button::getGlobalNarrowBounds()
 {
-	return sf::FloatRect(m_button.getPosition().x, m_button.getPosition().y, m_button.getSize().x, m_button.getSize().y);
+	return sf::FloatRect(m_button.getPosition().x, m_button.getPosition().y,
+			     m_button.getSize().x, m_button.getSize().y);
 }
 	
 

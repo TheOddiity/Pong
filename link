@@ -1,0 +1,6 @@
+#!/bin/bash
+# Link and Run Pong
+pushd o-files/ > /dev/null
+g++ *.o -o ../pong -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system
+popd > /dev/null
+./pong
