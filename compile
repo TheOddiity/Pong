@@ -1,6 +1,0 @@
-#!/bin/bash
-#Compile Pong
-
-pushd o-files/ > /dev/null
-g++ -c ../src/*.cpp -I ../include/
-popd > /dev/null
