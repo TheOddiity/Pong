@@ -1,0 +1,7 @@
+#Ignore Emacs Temp files
+\#*\#
+*~
+
+#Extra files
+misc/*
+o-files/*
