@@ -29,12 +29,13 @@ protected:
 
 
 private:
-	Settings& settings;
     Ball m_ball;
     Racket m_racketRight;
     Racket m_racketLeft;
     EllipseShape m_ellipse;
     sf::Vector2i m_windowSize;
+    sf::Font m_font;
+    Settings& settings;
 
     bool m_pause{false};
 	bool m_gameOver{false};
@@ -45,7 +46,6 @@ private:
     int m_pointsLeft;
     int m_pointsRight;
 
-    sf::Font m_font;
     sf::Text m_pointsLeftText;
     sf::Text m_pointsRightText;
 	sf::Text m_fpsText;

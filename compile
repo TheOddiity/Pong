@@ -1,0 +1,6 @@
+#!/bin/bash
+#Compile Pong
+
+pushd o-files/ > /dev/null
+g++ -Wall -Wno-unused-function -Wno-switch -c ../src/* -I ../include
+popd > /dev/null

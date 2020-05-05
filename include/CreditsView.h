@@ -13,15 +13,16 @@ public:
 	
 private:
 	sf::Vector2i m_windowSize;
+	float lineSpacing;
+	sf::Font m_font;
+	
 	sf::Texture m_logoTexture;
 	sf::Sprite m_logoSprite;
 	
 	sf::Texture m_SFMLTexture;
 	sf::Sprite m_SFMLSprite;
 	
-	sf::Font m_font;
 	mutable sf::Text m_text;
-	float lineSpacing;
 	sf::Text m_thanksText;
 	
 	std::array<std::string, 5> m_left;

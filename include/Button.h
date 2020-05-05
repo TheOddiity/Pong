@@ -23,23 +23,18 @@ public:
 	
 protected:
 
-	sf::RoundedRectangleShape m_button;
-	const std::string m_caption;
-	sf::Vector2i m_windowSize;
-	sf::Vector2f m_pos;
-	sf::Vector2f m_size;
-	
-	sf::Text m_text;
 
-	const sf::Color Color_outline;
-	const sf::Color Color_fill;
-	const sf::Color Color_hover;
-	const sf::Color Color_text;
-	
-	float time;
+  sf::RoundedRectangleShape m_button;
+  const std::string m_caption;
+  sf::Vector2i m_windowSize;
+  sf::Vector2f m_pos;
+  sf::Vector2f m_size;
+  sf::Text m_text;
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	sf::FloatRect getGlobalNarrowBounds();
+  float time;
+
+  void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+  sf::FloatRect getGlobalNarrowBounds();
 };
 
 #endif // BUTTON.H

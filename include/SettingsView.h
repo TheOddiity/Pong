@@ -6,6 +6,7 @@
 #include "Settings.h"
 #include "Textbox.h"
 #include "Button.h"
+#include "Checkbox.h"
 
 class SettingsView : public sf::Drawable
 {
@@ -16,21 +17,26 @@ public:
 	void updateText(const sf::Event& event);
 	
 private:
-	Settings& settings;
+	
 	sf::Vector2i m_windowSize;
 	sf::Font m_font;
+	Settings& settings;
 	sf::Text m_title;
 	sf::Text m_toWhatText;
+	sf::Text m_soundText;
 	sf::Text m_IPText;
 	
 	Textbox m_toWhatBox;
 	Textbox m_IPBox;
-	
+
+	Checkbox m_soundCheckbox;
+
 	Button m_saveBut;
 	Button m_cancelBut;
 	
 	void reset();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	
 };
 
 #endif // SETTINGSVIEW_H

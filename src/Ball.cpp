@@ -67,6 +67,8 @@ int Ball::move(const sf::Vector2f& offset)
     }
 
     sf::CircleShape::move(offset);
+
+    return 0;
 }
 
 sf::Vector2f Ball::hitRacket(Racket& racket) const
@@ -76,7 +78,7 @@ sf::Vector2f Ball::hitRacket(Racket& racket) const
 
     if (getGlobalBounds().intersects(racket.getGlobalBounds()))
     {
-        for (int i = 0; i < racket.getPointCount(); ++i)
+        for (unsigned int i = 0; i < racket.getPointCount(); ++i)
         {
             if (sfex::length(getPosition() - racket.getGlobalPoint(i)) <= m_rad)
             {

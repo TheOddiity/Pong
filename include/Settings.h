@@ -3,7 +3,8 @@
 
 struct Settings
 {
-	int points;
+  int points;
+  bool sound;
 };
 
 #endif // SETTINGS_H

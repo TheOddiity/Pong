@@ -31,13 +31,13 @@ GameView::GameView(const sf::Vector2i& windowSize, sf::Font& font, Settings& set
     m_pointsRightText.setOrigin(m_pointsRightText.getLocalBounds().width, 0);
     m_pointsRightText.setPosition(sf::Vector2f(windowSize.x - 3, 3));
 	
-	m_fpsText.setFont(m_font);
-	m_fpsText.setFillColor(sf::Color::White);
-	m_fpsText.setCharacterSize(15);
-	m_fpsText.setPosition(windowSize.x, windowSize.y);
+    m_fpsText.setFont(m_font);
+    m_fpsText.setFillColor(sf::Color::White);
+    m_fpsText.setCharacterSize(15);
+    m_fpsText.setPosition(windowSize.x, windowSize.y);
 	
-	m_startText.setFont(m_font);
-	setStartString();
+    m_startText.setFont(m_font);
+    setStartString();
 
 
     /*
@@ -50,11 +50,12 @@ GameView::GameView(const sf::Vector2i& windowSize, sf::Font& font, Settings& set
     pingSound.setBuffer(pingBuffer);
     pongSound.setBuffer(pongBuffer);
 	
-	m_pauseText.setFont(m_font);
-	m_pauseText.setString("Paused");
-	m_pauseText.setCharacterSize(static_cast<unsigned int>(m_windowSize.y * 0.2));
-	m_pauseText.setPosition((m_windowSize.x - m_pauseText.getLocalBounds().width) / 2,
-							(m_windowSize.y - m_pauseText.getLocalBounds().height) / 2 - m_pauseText.getLocalBounds().top);
+    m_pauseText.setFont(m_font);
+    m_pauseText.setString("Paused");
+    m_pauseText.setCharacterSize(static_cast<unsigned int>(m_windowSize.y * 0.2));
+    m_pauseText.setPosition((m_windowSize.x - m_pauseText.getLocalBounds().width) / 2,
+                            (m_windowSize.y - m_pauseText.getLocalBounds().height) / 2
+			    - m_pauseText.getLocalBounds().top);
 }
 GameView::~GameView()
 {
@@ -206,41 +207,44 @@ void GameView::checkKeyPressed(float dt)
 GameView::Side GameView::checkCollision()
 {
 	
-  	static bool hitRight{false};
-    static bool hitLeft{false};
-	sf::Vector2f hitVector{m_ball.hitRacket(m_racketRight)};
-	if (hitVector != sf::Vector2f(0,0))
-	{
-		if (!hitRight) // true when ball left right rackets space
-		{
-			pongSound.play();
-			hitRight = true;
-			m_ball.setSpeed(sfex::reflect(m_ball.getSpeed(), hitVector));
-			return Side::RIGHT;
-		}
-	}
-	else 
-	{
-		hitRight = false;
-	}
+  static bool hitRight{false};
+  static bool hitLeft{false};
+  sf::Vector2f hitVector{m_ball.hitRacket(m_racketRight)};
+  if (hitVector != sf::Vector2f(0,0))
+  {
+    if (!hitRight) // true when ball left right rackets space
+    {
+      if (settings.sound)
+	pongSound.play();
+
+      hitRight = true;
+      m_ball.setSpeed(sfex::reflect(m_ball.getSpeed(), hitVector));
+      return Side::RIGHT;
+    }
+  }
+  else 
+  {
+    hitRight = false;
+  }
 	
-	hitVector = m_ball.hitRacket(m_racketLeft); 
-	if (hitVector != sf::Vector2f(0,0))
-	{
-		if (!hitLeft) // true when ball left left rackets space
-		{
-			pingSound.play();
-			hitLeft = true;
-			m_ball.setSpeed(sfex::reflect(m_ball.getSpeed(), hitVector));
-			return Side::LEFT;
-    	}
-	}
-	else
-	{
-		hitLeft = false;
-	}
+  hitVector = m_ball.hitRacket(m_racketLeft); 
+  if (hitVector != sf::Vector2f(0,0))
+  {
+    if (!hitLeft) // true when ball left left rackets space
+    {
+      if (settings.sound)
+	pingSound.play();
+      hitLeft = true;
+      m_ball.setSpeed(sfex::reflect(m_ball.getSpeed(), hitVector));
+      return Side::LEFT;
+    }
+  }
+  else
+  {
+    hitLeft = false;
+  }
 	
-	return Side::NONE;
+  return Side::NONE;
 }
 
 void GameView::moveBall(float dt)

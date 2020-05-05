@@ -2,21 +2,18 @@
 
 #include <iostream>
 #include "sfex.h"
+#include "Colors.h"
 
 Button::Button(std::string caption, sf::Vector2i windowSize) : 
 			m_button{sf::RoundedRectangleShape(sf::Vector2f(100, 30), 10, 8)}, 
-			m_caption{caption}, m_windowSize{windowSize},
-			Color_fill{sf::Color(180, 180, 180, 0)}, // Grey
-			Color_outline{sf::Color(200, 200, 200)}, // Dark red
-			Color_hover{sf::Color(255, 255, 255, 40)}, // Light Grey
-			Color_text{sf::Color(0, 166, 0)}
+			m_caption{caption}, m_windowSize{windowSize}
 {
 	m_button.setOutlineThickness(5);
-	m_button.setOutlineColor(Color_outline);
-	m_button.setFillColor(Color_fill);
+	m_button.setOutlineColor(Colors::ButtonBorder);
+	m_button.setFillColor(Colors::ButtonFill);
 	
 	m_text.setString(caption);
-	m_text.setFillColor(Color_text);
+	m_text.setFillColor(Colors::ButtonText);
 	m_text.setCharacterSize(static_cast<int>(m_button.getSize().y * .7));
 	
 	m_size = sf::Vector2f(100, 30);
@@ -28,11 +25,11 @@ bool Button::update(float dt, const sf::RenderWindow& window)
 	{
 		if (sfex::mouseButtonReleased(sf::Mouse::Left))
 			return true;
-		m_button.setFillColor(Color_hover);
+		m_button.setFillColor(Colors::ButtonFillHover);
 	}
 	else
 	{
-		m_button.setFillColor(Color_fill);
+	  m_button.setFillColor(Colors::ButtonFill);
 	}
 	
 	return false;

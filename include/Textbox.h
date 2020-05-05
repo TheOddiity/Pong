@@ -38,7 +38,7 @@ private:
 	
 	sf::Text m_text;
 	
-	int m_charLim;
+	unsigned int m_charLim;
 	std::string m_charType;
 	
 	bool m_hasFocus{false};

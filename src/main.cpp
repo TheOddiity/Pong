@@ -34,7 +34,7 @@ int main()
 		
 	}
 	
-	Settings settings{15};
+	Settings settings{15, true};
 	
 	MenuView menuView{windowSize, font};
 	GameView gameView{windowSize, font, settings};

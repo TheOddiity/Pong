@@ -4,9 +4,10 @@
 #include "main.h"
 #include <iostream>
 
-CreditsView::CreditsView(const sf::Vector2i& windowSize, sf::Font& font) : m_windowSize{windowSize}, lineSpacing{1.8f}, m_font{font},
-					m_left{ "Head Game Developer"		, "Assistant Game Developer", "", "Head Graphics Designer"	, "Head Audio Guy"	},
-					m_right{"Odd \"TheOddity\" Restad"	, "Odd \"TheOddity\" Restad", "", "Odd \"TheOddity\" Restad", "Odd \"TheOddity\" Restad"} 	
+CreditsView::CreditsView(const sf::Vector2i& windowSize, sf::Font& font) :
+  m_windowSize{windowSize}, lineSpacing{1.8f}, m_font{font},
+  m_left{ "Head Game Developer", "Assistant Game Developer", "", "Head Graphics Designer", "Head Audio Guy"},
+  m_right{"Odd \"TheOddity\" Restad", "Odd \"TheOddity\" Restad", "", "Odd \"TheOddity\" Restad", "Odd \"TheOddity\" Restad"} 	
 {
 	if(!m_logoTexture.loadFromFile("assets/logo.png"))
 	{
@@ -46,7 +47,7 @@ void CreditsView::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {	
 	target.draw(m_logoSprite);
 
-	for(int i = 0; i < m_left.size(); ++i)
+	for(unsigned int i = 0; i < m_left.size(); ++i)
 	{
 		m_text.setString(m_left[i]);
 		m_text.setPosition(m_windowSize.x / 2.f - m_text.getLocalBounds().width - 20, 
@@ -54,7 +55,7 @@ void CreditsView::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		target.draw(m_text);
 	}
 	
-	for(int i = 0; i < m_right.size(); ++i)
+	for(unsigned int i = 0; i < m_right.size(); ++i)
 	{
 		m_text.setString(m_right[i]);
 		m_text.setPosition(m_windowSize.x / 2.f + 20, 

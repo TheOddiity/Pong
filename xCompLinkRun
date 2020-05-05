@@ -1,0 +1,5 @@
+#!/bin/bash
+# Compile, Link and Run Pong
+
+./compile
+./link

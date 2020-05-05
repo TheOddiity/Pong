@@ -4,6 +4,7 @@
 #include <string>
 
 #include "sfex.h"
+#include "Colors.h"
 
 Textbox::Textbox(const sf::Font& font, const sf::Vector2f& size, const sf::Vector2f& pos) 
 				: Textbox()
@@ -23,11 +24,11 @@ Textbox::Textbox()
 	
 	m_rrShape.setCornerPointCount(8);
 	m_rrShape.setOutlineThickness(3);
-	m_rrShape.setOutlineColor(sf::Color::Red);
-	m_rrShape.setFillColor(sf::Color::Blue);
+	m_rrShape.setOutlineColor(Colors::TextboxBorder);
+	m_rrShape.setFillColor(Colors::TextboxFill);
 	
-	m_text.setFillColor(sf::Color::White);
-	m_text.setOutlineColor(sf::Color::White);
+	m_text.setFillColor(Colors::TextboxText);
+	m_text.setOutlineColor(Colors::TextboxText);
 	m_text.setString("10");
 	
 	m_charLim = 15;
