@@ -15,7 +15,7 @@ GameView::GameView(const sf::Vector2i& windowSize, sf::Font& font, Settings& set
       m_windowSize{windowSize}, m_font{font}, settings{settings}
 {
 	srand (static_cast<unsigned> (time(0)));
-	
+
     restart();
     // Point score
 
@@ -30,12 +30,12 @@ GameView::GameView(const sf::Vector2i& windowSize, sf::Font& font, Settings& set
     m_pointsRightText = m_pointsLeftText;
     m_pointsRightText.setOrigin(m_pointsRightText.getLocalBounds().width, 0);
     m_pointsRightText.setPosition(sf::Vector2f(windowSize.x - 3, 3));
-	
+
     m_fpsText.setFont(m_font);
     m_fpsText.setFillColor(sf::Color::White);
     m_fpsText.setCharacterSize(15);
     m_fpsText.setPosition(windowSize.x, windowSize.y);
-	
+
     m_startText.setFont(m_font);
     setStartString();
 
@@ -49,7 +49,7 @@ GameView::GameView(const sf::Vector2i& windowSize, sf::Font& font, Settings& set
     }
     pingSound.setBuffer(pingBuffer);
     pongSound.setBuffer(pongBuffer);
-	
+
     m_pauseText.setFont(m_font);
     m_pauseText.setString("Paused");
     m_pauseText.setCharacterSize(static_cast<unsigned int>(m_windowSize.y * 0.2));
@@ -74,35 +74,35 @@ bool GameView::update(float dt)
 	{
 		spacePressed = false;
 	}
-	
+
 	if(!hasFocus || m_pause)
 		return false;
-	
+
     //Logic and input handling
     if(m_countdown < 4 && (m_countdown += dt) > 1)
 	{
-		m_startText.setCharacterSize(static_cast<unsigned int>(m_windowSize.y * .5)); 
+		m_startText.setCharacterSize(static_cast<unsigned int>(m_windowSize.y * .5));
 		m_startText.setString(std::to_string(static_cast<int>(5 - m_countdown)));
 		m_startText.setPosition((m_windowSize.x - m_startText.getLocalBounds().width) / 2,
 								(m_windowSize.y - m_startText.getLocalBounds().height) / 2
 							     -  m_startText.getLocalBounds().top);
 		return false;
 	}
-	
+
     checkKeyPressed(dt);
-	
+
 	checkCollision();
 
     moveBall(dt);
-	
+
 	m_fpsText.setString(std::to_string(static_cast<int>(1/dt)));
 	m_fpsText.setOrigin(m_fpsText.getLocalBounds().width + 3, m_fpsText.getLocalBounds().height + 3);
-	
+
 	if (m_pointsRight >= settings.points || m_pointsLeft >= settings.points)
 	{
 		gameOver();
 	}
-	
+
 	if (m_gameOver)
 	{
 		if((m_gameOverTimer += dt) > 3)
@@ -124,10 +124,10 @@ void GameView::checkKeyPressed(float dt)
 {
 	sf::Vector2f mvLeft(0, 0);
 	sf::Vector2f mvRight(0, 0);
-	
+
 	// Left and Right for Left player
-	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) 
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)
 	   		&& m_racketLeft.getPosition().x - m_racketLeft.getRadius().x > 10)
 	{
 		mvLeft.x = -1;
@@ -137,9 +137,9 @@ void GameView::checkKeyPressed(float dt)
 	{
 		mvLeft.x = 1;
 	}
-	
+
 	// Up and down for Left player
-	
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)
             && m_racketLeft.getPosition().y - m_racketLeft.getRadius().y > 0)
     {
@@ -150,10 +150,10 @@ void GameView::checkKeyPressed(float dt)
     {
         mvLeft.y = 1;
     }
-	
+
 	// Left and right for Right player
-	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)
 	   		&& m_racketRight.getPosition().x - m_racketRight.getRadius().x > m_windowSize.x / 2 + 15)
 	{
 		mvRight.x = -1;
@@ -163,9 +163,9 @@ void GameView::checkKeyPressed(float dt)
 	{
 		mvRight.x  = 1;
 	}
-	
+
 	// Up and down for Right player
-	
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
             && m_racketRight.getPosition().y - m_racketRight.getRadius().y > 0)
     {
@@ -179,7 +179,7 @@ void GameView::checkKeyPressed(float dt)
 
 	m_racketLeft.move(sfex::norm(mvLeft) * dt);
 	m_racketRight.move(sfex::norm(mvRight) * dt);
-	
+
 	sf::Vector2f diffPos;
 	switch (checkCollision())
 	{
@@ -206,7 +206,7 @@ void GameView::checkKeyPressed(float dt)
 
 GameView::Side GameView::checkCollision()
 {
-	
+
   static bool hitRight{false};
   static bool hitLeft{false};
   sf::Vector2f hitVector{m_ball.hitRacket(m_racketRight)};
@@ -222,12 +222,12 @@ GameView::Side GameView::checkCollision()
       return Side::RIGHT;
     }
   }
-  else 
+  else
   {
     hitRight = false;
   }
-	
-  hitVector = m_ball.hitRacket(m_racketLeft); 
+
+  hitVector = m_ball.hitRacket(m_racketLeft);
   if (hitVector != sf::Vector2f(0,0))
   {
     if (!hitLeft) // true when ball left left rackets space
@@ -243,7 +243,7 @@ GameView::Side GameView::checkCollision()
   {
     hitLeft = false;
   }
-	
+
   return Side::NONE;
 }
 
@@ -272,7 +272,7 @@ void GameView::reset()
 	m_pointsLeft = 0;
 	m_pointsRight = 0;
     m_pointsLeftText.setString("0");
-    m_pointsLeftText.setString("0");	
+    m_pointsLeftText.setString("0");
 	m_racketLeft.setPosition(sf::Vector2f(20, m_windowSize.y / 2 - 20));
 	m_racketRight.setPosition(sf::Vector2f(m_windowSize.x - 20, m_windowSize.y / 2 - 20));
 	m_gameOver = false;
@@ -289,7 +289,7 @@ void GameView::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(m_racketRight);
     target.draw(m_pointsLeftText);
     target.draw(m_pointsRightText);
-	
+
 	if (m_countdown < 4)
 	{
 		target.draw(m_startText);
@@ -321,7 +321,7 @@ void GameView::setStartString()
 	m_startText.setString("Get Ready!");
 	m_startText.setCharacterSize(static_cast<unsigned int>(m_windowSize.y * 0.2));
 	m_startText.setPosition((m_windowSize.x - m_startText.getLocalBounds().width) / 2,
-							(m_windowSize.y - m_startText.getLocalBounds().height) / 2 
+							(m_windowSize.y - m_startText.getLocalBounds().height) / 2
 						   	 -  m_startText.getLocalBounds().top);
 	m_countdown = 0;
 }
@@ -334,27 +334,27 @@ void GameView::gameOver()
 	m_gameOverText.setString("Game Over");
 	m_gameOverText.setFont(m_font);
 	//m_gameOverText.setFillColor(sf::Color(200, 200, 200));
-	
+
 	m_playerWinsText.setString(std::string(m_pointsLeft > m_pointsRight ? "Blue" : "Red") + " wins!");
 	m_playerWinsText.setFont(m_font);
 	m_playerWinsText.setFillColor(m_pointsLeft > m_pointsRight ? sf::Color(100, 210, 210) : sf::Color(255, 100, 100));
-	
+
 	gameOverSetSize();
-	
-	
+
+
 	m_racketLeft.setPosition(sf::Vector2f(80, 70));
 	m_racketRight.setPosition(sf::Vector2f(620, 310));
-	
+
 	m_pointsRight = m_pointsLeft = 0;
 }
 
 void GameView::gameOverSetSize()
 {
 	m_gameOverText.setCharacterSize(static_cast<unsigned int>(m_gameOverTextSize));
-	m_gameOverText.setPosition((m_windowSize.x - m_gameOverText.getLocalBounds().width) / 2, 
+	m_gameOverText.setPosition((m_windowSize.x - m_gameOverText.getLocalBounds().width) / 2,
 							   (m_windowSize.y - m_gameOverText.getLocalBounds().height) * .3);
 	m_playerWinsText.setCharacterSize(static_cast<unsigned int>(m_gameOverTextSize * .7f));
-	m_playerWinsText.setPosition((m_windowSize.x - m_playerWinsText.getLocalBounds().width) / 2, 
+	m_playerWinsText.setPosition((m_windowSize.x - m_playerWinsText.getLocalBounds().width) / 2,
 							     m_gameOverText.getPosition().y + m_gameOverTextSize * 1.5);
 }
 

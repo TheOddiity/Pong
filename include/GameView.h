@@ -4,77 +4,75 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#include "View.h"
 #include "Ball.h"
 #include "Racket.h"
 #include "EllipseShape.h"
 #include "Settings.h"
 
-class GameView : public sf::Drawable
+class GameView : public View
 {
 public:
-	enum class Side
-	{
-		LEFT,
-		NONE,
-		RIGHT
-	};
-	
-    GameView(const sf::Vector2i& windowSize, sf::Font& font, Settings& settings);
-    ~GameView();
+  enum class Side
+  {
+    LEFT,
+	NONE,
+	RIGHT
+  };
 
-    bool update(float dt);
-	void reset();
+  GameView(const sf::Vector2i& windowSize, sf::Font& font, Settings& settings);
+  ~GameView();
+
+  virtual bool update(float dt) override;
+  void reset();
 
 protected:
+  Ball m_ball;
+  Racket m_racketRight;
+  Racket m_racketLeft;
+  EllipseShape m_ellipse;
+  sf::Vector2i m_windowSize;
+  sf::Font m_font;
+  Settings& settings;
 
+  bool m_pause{false};
+  bool m_gameOver{false};
 
-private:
-    Ball m_ball;
-    Racket m_racketRight;
-    Racket m_racketLeft;
-    EllipseShape m_ellipse;
-    sf::Vector2i m_windowSize;
-    sf::Font m_font;
-    Settings& settings;
+  //Test
+  int pointIndex{0};
 
-    bool m_pause{false};
-	bool m_gameOver{false};
+  int m_pointsLeft;
+  int m_pointsRight;
 
-    //Test
-    int pointIndex{0};
+  sf::Text m_pointsLeftText;
+  sf::Text m_pointsRightText;
+  sf::Text m_fpsText;
+  sf::Text m_gameOverText;
+  sf::Text m_playerWinsText;
+  sf::Text m_startText;
+  sf::Text m_pauseText;
+  float m_countdown;
+  float m_gameOverTextSize;
+  float m_gameOverTimer;
 
-    int m_pointsLeft;
-    int m_pointsRight;
+  sf::SoundBuffer pingBuffer;
+  sf::SoundBuffer pongBuffer;
+  sf::Sound pingSound;
+  sf::Sound pongSound;
 
-    sf::Text m_pointsLeftText;
-    sf::Text m_pointsRightText;
-	sf::Text m_fpsText;
-	sf::Text m_gameOverText;
-	sf::Text m_playerWinsText;
-	sf::Text m_startText;
-	sf::Text m_pauseText;
-	float m_countdown;
-	float m_gameOverTextSize;
-	float m_gameOverTimer;
-	
-    sf::SoundBuffer pingBuffer;
-    sf::SoundBuffer pongBuffer;
-    sf::Sound pingSound;
-    sf::Sound pongSound;
+  virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-    
-    void checkKeyPressed(float dt);
-	Side checkCollision();
-	void moveBall(float dt);
-	void restart();
-	void setStartString();
-	void gameOver();
-	void gameOverSetSize();
+  void checkKeyPressed(float dt);
+  Side checkCollision();
+  void moveBall(float dt);
+  void restart();
+  void setStartString();
+  void gameOver();
+  void gameOverSetSize();
 
-    void stop();
+  void stop();
 
-    static sf::Vector2f randSpeedVector();
+  static sf::Vector2f randSpeedVector();
 };
 
 #endif // GAMEVIEW_H

@@ -10,7 +10,7 @@ Ball::Ball(sf::Vector2i windowSize, sf::Vector2f speed, sf::Vector2f startPos)
 {
     setFillColor(sf::Color::Green);
     setOrigin(m_rad, m_rad);
-	
+
 	if (startPos == sf::Vector2f(0.f, 0.f)) // no startPos sent
 	{
 		setPosition(windowSize.x / 2, windowSize.y / 2);
